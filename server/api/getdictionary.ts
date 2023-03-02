@@ -17,19 +17,23 @@ export default defineEventHandler(async (event) => {
 
   const file = fs.createWriteStream(__dirname + "/data.txt");
 
-  https.get(
-    `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,
-    (response) => {
-      const stream = response.pipe(file);
-
-      stream.on("finish", function () {
-        fsPromises
-          .readFile(__dirname + "/data.txt", "utf-8")
-          .then((data: any) => {
-            array = data.toString().split("\r\n");
-          });
-      });
-    }
-  );
+  try {
+    https.get(
+      `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,
+      (response) => {
+        const stream = response.pipe(file);
+  
+        stream.on("finish", function () {
+          fsPromises
+            .readFile(__dirname + "/data.txt", "utf-8")
+            .then((data: any) => {
+              array = data.toString().split("\r\n");
+            });
+        });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
   return array;
 });
