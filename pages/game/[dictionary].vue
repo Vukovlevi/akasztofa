@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 const dictionary = route.params.dictionary;
-const { data, pending } = await useLazyFetch("/api/getdictionary", {
+const { data } = await useLazyFetch("/api/getdictionary", {
   method: "POST",
   body: {
     dictionary: dictionary,
@@ -17,9 +17,15 @@ function generateRandom(min: number, max: number) {
 }
 
 const word = ref("");
+const guesses = ref<string[]>([]);
 if (data.value && word.value == "") {
   const index = generateRandom(0, data.value.length);
   word.value = data.value[index];
+}
+
+function addGuess(letter: string) {
+  if (!letter.match(/^[a-záéíóöőúüű]$/)) return;
+  if (!guesses.value.includes(letter)) guesses.value.push(letter);
 }
 </script>
 
@@ -30,54 +36,59 @@ if (data.value && word.value == "") {
         v-for="keyletter in word.length"
         class="border-b-4 mr-4 text-3xl w-12 text-center"
       >
-        {{ word[keyletter - 1].toUpperCase() }}
+        <span
+          :class="
+            guesses.includes(word[keyletter - 1]) ? 'visible' : 'invisible'
+          "
+          >{{ word[keyletter - 1].toUpperCase() }}</span
+        >
       </p>
     </div>
     <div class="letter-container grid grid-cols-11 w-3/5 mx-auto mb-6 gap-2">
-      <button class="letter">A</button>
-      <button class="letter">Á</button>
-      <button class="letter">B</button>
-      <button class="letter">C</button>
-      <button class="letter">CS</button>
-      <button class="letter">D</button>
-      <button class="letter">DZ</button>
-      <button class="letter">DZS</button>
-      <button class="letter">E</button>
-      <button class="letter">É</button>
-      <button class="letter">F</button>
-      <button class="letter">G</button>
-      <button class="letter">GY</button>
-      <button class="letter">H</button>
-      <button class="letter">I</button>
-      <button class="letter">Í</button>
-      <button class="letter">J</button>
-      <button class="letter">K</button>
-      <button class="letter">L</button>
-      <button class="letter">LY</button>
-      <button class="letter">M</button>
-      <button class="letter">N</button>
-      <button class="letter">NY</button>
-      <button class="letter">O</button>
-      <button class="letter">Ó</button>
-      <button class="letter">Ö</button>
-      <button class="letter">Ő</button>
-      <button class="letter">P</button>
-      <button class="letter">Q</button>
-      <button class="letter">R</button>
-      <button class="letter">S</button>
-      <button class="letter">SZ</button>
-      <button class="letter">T</button>
-      <button class="letter">TY</button>
-      <button class="letter">U</button>
-      <button class="letter">Ú</button>
-      <button class="letter">Ü</button>
-      <button class="letter">Ű</button>
-      <button class="letter">V</button>
-      <button class="letter">W</button>
-      <button class="letter">X</button>
-      <button class="letter">Y</button>
-      <button class="letter">Z</button>
-      <button class="letter">ZS</button>
+      <button class="letter" @click="addGuess('a')">A</button>
+      <button class="letter" @click="addGuess('á')">Á</button>
+      <button class="letter" @click="addGuess('b')">B</button>
+      <button class="letter" @click="addGuess('c')">C</button>
+      <button class="letter" @click="addGuess('cs')">CS</button>
+      <button class="letter" @click="addGuess('d')">D</button>
+      <button class="letter" @click="addGuess('dz')">DZ</button>
+      <button class="letter" @click="addGuess('dzs')">DZS</button>
+      <button class="letter" @click="addGuess('e')">E</button>
+      <button class="letter" @click="addGuess('é')">É</button>
+      <button class="letter" @click="addGuess('f')">F</button>
+      <button class="letter" @click="addGuess('g')">G</button>
+      <button class="letter" @click="addGuess('gy')">GY</button>
+      <button class="letter" @click="addGuess('h')">H</button>
+      <button class="letter" @click="addGuess('i')">I</button>
+      <button class="letter" @click="addGuess('í')">Í</button>
+      <button class="letter" @click="addGuess('j')">J</button>
+      <button class="letter" @click="addGuess('k')">K</button>
+      <button class="letter" @click="addGuess('l')">L</button>
+      <button class="letter" @click="addGuess('ly')">LY</button>
+      <button class="letter" @click="addGuess('m')">M</button>
+      <button class="letter" @click="addGuess('n')">N</button>
+      <button class="letter" @click="addGuess('ny')">NY</button>
+      <button class="letter" @click="addGuess('o')">O</button>
+      <button class="letter" @click="addGuess('ó')">Ó</button>
+      <button class="letter" @click="addGuess('ö')">Ö</button>
+      <button class="letter" @click="addGuess('ő')">Ő</button>
+      <button class="letter" @click="addGuess('p')">P</button>
+      <button class="letter" @click="addGuess('q')">Q</button>
+      <button class="letter" @click="addGuess('r')">R</button>
+      <button class="letter" @click="addGuess('s')">S</button>
+      <button class="letter" @click="addGuess('sz')">SZ</button>
+      <button class="letter" @click="addGuess('t')">T</button>
+      <button class="letter" @click="addGuess('ty')">TY</button>
+      <button class="letter" @click="addGuess('u')">U</button>
+      <button class="letter" @click="addGuess('ú')">Ú</button>
+      <button class="letter" @click="addGuess('ü')">Ü</button>
+      <button class="letter" @click="addGuess('ű')">Ű</button>
+      <button class="letter" @click="addGuess('v')">V</button>
+      <button class="letter" @click="addGuess('w')">W</button>
+      <button class="letter" @click="addGuess('x')">X</button>
+      <button class="letter" @click="addGuess('y')">Y</button>
+      <button class="letter" @click="addGuess('z')">Z</button>
+      <button class="letter" @click="addGuess('zs')">ZS</button>
     </div>
   </div>
 </template>
