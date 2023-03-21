@@ -9,11 +9,11 @@ const __dirname = path.dirname(__filename);
 
 const runtimeConfig = useRuntimeConfig();
 export default defineEventHandler(async (event) => {
-  try {
-    await fsPromises.unlink(__dirname + "/data.txt");
-  } catch (err) {
-    console.error(err);
-  }
+  // try {
+  //   await fsPromises.unlink(__dirname + "/data.txt");
+  // } catch (err) {
+  //   console.error(err);
+  // }
   return new Promise<string[]>(async (resolve, reject) => {
     let array: string[] = [];
     const body = await readBody(event);
