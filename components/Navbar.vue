@@ -14,7 +14,7 @@ async function logout() {
 </script>
 
 <template>
-  <div class="navbar fixed top-0 bg-primary opacity-90 text-info-content">
+  <div class="navbar fixed top-0 bg-primary opacity-90 text-info-content z-10">
     <div class="flex-1">
       <NuxtLink
         to="/"
