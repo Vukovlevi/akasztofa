@@ -9,7 +9,7 @@ const client = useSupabaseClient<Database>();
 
 const route = useRoute();
 const dictionary = route.params.dictionary;
-const { data, pending } = await useLazyFetch("/api/getdictionary", {
+const { data, pending } = await useFetch("/api/getdictionary", {
   method: "POST",
   body: {
     dictionary: dictionary,
@@ -22,6 +22,7 @@ let incorrectGuesses = 0;
 let HANGMANPARTS: NodeListOf<Element>;
 onMounted(() => {
   document.addEventListener("keypress", handler);
+  generateWord();
 });
 onUnmounted(() => document.removeEventListener("keypress", handler));
 
@@ -134,8 +135,6 @@ function handler(event: KeyboardEvent) {
   if (!letter.match(/^[a-záéíóöőúüű]$/)) return;
   addGuess(letter);
 }
-
-generateWord();
 </script>
 
 <template>
