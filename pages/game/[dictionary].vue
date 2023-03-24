@@ -66,7 +66,6 @@ async function win() {
 function lose() {
   showNextGame.value = true;
   winnerState.value = "loser";
-  //todo: showtoast
 }
 
 function nextGame() {
@@ -78,6 +77,10 @@ function nextGame() {
     letterEl?.classList.remove("incorrect");
   });
   guesses.value = [];
+  for (let i = 0; i < word.value.length; i++) {
+    const deleteElContent = document.querySelector(`[data-index="${i}"]`)!;
+    deleteElContent.textContent = "";
+  }
   showNextGame.value = false;
   incorrectGuesses = 0;
   winnerState.value = "default";
@@ -89,6 +92,17 @@ function correctGuess(letter: string) {
   guessedLetter?.classList.add("correct");
   const checkedLeters: string[] = [];
   for (let i = 0; i < word.value.length; i++) {
+    if (letter == word.value[i]) {
+      console.log(i);
+      const guessedLetterElement = document.querySelector(
+        `[data-index="${i.toString()}"]`
+      )!;
+      console.log(guessedLetterElement);
+      guessedLetterElement.textContent = word.value[i].toUpperCase();
+    }
+  }
+  for (let i = 0; i < word.value.length; i++) {
+    console.log(letter, word.value[i]);
     if (checkedLeters.includes(word.value[i])) continue;
     checkedLeters.push(word.value[i]);
     if (!guesses.value.includes(word.value[i])) return;
@@ -110,7 +124,8 @@ function incorrectGuess(letter: string) {
 }
 
 function multipleLetter(letter: string) {
-  if (showNextGame.value) return;
+  if (showNextGame.value || guesses.value.includes(letter)) return;
+  guesses.value.push(letter);
   const guessedLetter = document.querySelector(`[data-letter="${letter}"]`);
   if (word.value.includes(letter)) {
     guessedLetter?.classList.add("correct");
@@ -119,13 +134,12 @@ function multipleLetter(letter: string) {
     return;
   }
   guessedLetter?.classList.add("incorrect");
-  guesses.value.push(letter);
   drawHangman();
 }
 
 function addGuess(letter: string) {
-  if (showNextGame.value) return;
-  if (!guesses.value.includes(letter)) guesses.value.push(letter);
+  if (showNextGame.value || guesses.value.includes(letter)) return;
+  guesses.value.push(letter);
   if (word.value.includes(letter)) correctGuess(letter);
   else incorrectGuess(letter);
 }
@@ -142,7 +156,7 @@ function handler(event: KeyboardEvent) {
     <div class="pt-24 flex flex-col justify-end gap-4">
       <div class="grow relative">
         <div class="mx-auto max-w-max">
-          <div v-if="showNextGame">
+          <div v-if="showNextGame" class="absolute translate-x-[-50%] z-10">
             <div
               v-if="winnerState == 'winner'"
               class="alert alert-success shadow-lg"
@@ -179,7 +193,10 @@ function handler(event: KeyboardEvent) {
                   d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>Sajnálom, ez most nem sikerült!</span>
+              <span
+                >Sajnálom, ez most nem sikerült! <br />
+                A kitalálandó szó a "{{ word }}" volt.</span
+              >
             </div>
           </div>
           <span class="hangman invisible base"></span>
@@ -197,16 +214,11 @@ function handler(event: KeyboardEvent) {
       <div class="mx-auto mt-80 flex">
         <p v-if="pending">Töltés...</p>
         <p
-          v-if="!pending"
+          v-else
           v-for="keyletter in word.length"
           class="border-b-4 mr-4 text-3xl w-12 text-center"
         >
-          <span
-            :class="
-              guesses.includes(word[keyletter - 1]) ? 'visible' : 'invisible'
-            "
-            >{{ word[keyletter - 1].toUpperCase() }}</span
-          >
+          <span :data-index="(keyletter - 1).toString()"></span>
         </p>
         <button
           v-if="showNextGame"
