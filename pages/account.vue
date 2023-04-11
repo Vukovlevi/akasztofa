@@ -5,6 +5,15 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+type dict = {
+  categories: string;
+  created_at: string | null;
+  file_name: string;
+  id: number;
+  user_id: string;
+  username: string;
+};
+
 let USER: any = null;
 if (useState("user")) {
   USER = useState("user").value;
@@ -81,6 +90,39 @@ async function setUsername() {
   }
 }
 
+const { data: dictionaries, error } = await client
+  .from("dictionaries")
+  .select("*")
+  .eq("user_id", user.value?.id);
+if (error) {
+  alert("A feltöltött szótáraidat nem sikerült megjelníteni.");
+}
+
+async function deleteDictionary(dict: dict) {
+  const { error: dictError } = await client
+    .from("dictionaries")
+    .delete()
+    .eq("file_name", dict.file_name);
+  if (dictError) return alert("A törlés sikertelen!");
+
+  USER = useState("user").value;
+  const index = USER.dictionaries.indexOf(dict.id);
+  USER.dictionaries.splice(index, 1);
+  const { error: arrayError } = await client
+    .from("users")
+    .update({ dictionaries: USER.dictionaries })
+    .eq("user_id", user.value?.id);
+  if (arrayError) return alert("A törlés sikertelen!");
+  useState("user").value = USER;
+
+  const { error: fileError } = await client.storage
+    .from("dictionaries")
+    .remove([`${user.value?.id}/${dict.file_name}`]);
+  if (fileError) return alert("A fájl törlése sikertelen!");
+
+  alert("Sikeres törlés!");
+}
+
 getUser();
 </script>
 
@@ -137,6 +179,17 @@ getUser();
         >
       </div>
     </div>
-    <!-- TODO: a potenciális dictionaryk megjelnítése -->
+    <div
+      v-if="dictionaries"
+      class="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 mx-auto"
+    >
+      <Dictionary
+        v-for="dictionary in dictionaries"
+        :filename="dictionary.file_name"
+        :username="dictionary.username"
+        mode="delete"
+        @delete="deleteDictionary(dictionary)"
+      ></Dictionary>
+    </div>
   </div>
 </template>

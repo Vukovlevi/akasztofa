@@ -9,6 +9,7 @@ const client = useSupabaseClient<Database>();
 
 const route = useRoute();
 const dictionary = route.params.dictionary;
+const dictionary_uploader = dictionary.toString().split("*")[0];
 const { data, pending } = await useFetch("/api/getdictionary", {
   method: "POST",
   body: {
@@ -46,10 +47,9 @@ function generateWord() {
 
 async function win() {
   showNextGame.value = true;
-  // alert("Győztél!");
   const user: any = useState("user").value;
   winnerState.value = "winner";
-  if (user) {
+  if (user && useSupabaseUser().value?.id != dictionary_uploader) {
     user.score++;
     const { error } = await client
       .from("users")
@@ -58,7 +58,6 @@ async function win() {
     if (error) {
       return alert(`Nem sikerült updatelni! ${error.message}`);
     }
-    console.log(user.score);
     useState("user").value = user;
   }
 }
@@ -93,16 +92,13 @@ function correctGuess(letter: string) {
   const checkedLeters: string[] = [];
   for (let i = 0; i < word.value.length; i++) {
     if (letter == word.value[i]) {
-      console.log(i);
       const guessedLetterElement = document.querySelector(
         `[data-index="${i.toString()}"]`
       )!;
-      console.log(guessedLetterElement);
       guessedLetterElement.textContent = word.value[i].toUpperCase();
     }
   }
   for (let i = 0; i < word.value.length; i++) {
-    console.log(letter, word.value[i]);
     if (checkedLeters.includes(word.value[i])) continue;
     checkedLeters.push(word.value[i]);
     if (!guesses.value.includes(word.value[i])) return;

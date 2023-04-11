@@ -31,6 +31,7 @@ if (!dictionaries) {
       <Dictionary
         :username="dictionary.username"
         :filename="dictionary.file_name"
+        mode="play"
       ></Dictionary>
     </NuxtLink>
   </div>
