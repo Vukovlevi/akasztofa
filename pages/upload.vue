@@ -100,9 +100,9 @@ async function upload() {
 
 <template>
   <div
-    class="h-screen w-screen pt-20 flex flex-col justify-center items-center"
+    class="w-screen sm:h-screen pt-20 flex flex-col justify-center items-center"
   >
-    <div class="alert alert-info shadow-lg w-7/12 mb-10">
+    <div class="alert alert-info shadow-lg w-9/12 md:w-7/12 mb-10">
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -122,9 +122,10 @@ async function upload() {
           neve nem tartalmazhat ékezetes karaktereket. A fájlnak ".txt"
           formátumban kell lennie, és soronként pontosan egy szót kell
           tartalmaznia! A szavak nem tartalmazhatnak szóközt se előttük, se
-          bennük, se mögöttük. Ha a te fájlod nem felel meg ezen
-          követelményeknek, nem garantálhatjuk a szótár szabályszerű
-          működését!</span
+          bennük, se mögöttük. A szótárban több mint 30 különböző szónak kell
+          lennie, különben az alapértelmezett szótárral lesz helyettesítve. Ha a
+          te fájlod nem felel meg ezen követelményeknek, nem garantálhatjuk a
+          szótár szabályszerű működését!</span
         >
       </div>
     </div>

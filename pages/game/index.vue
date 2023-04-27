@@ -22,7 +22,7 @@ if (!dictionaries) {
 
 <template>
   <div
-    class="pt-24 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 mx-auto"
+    class="pt-24 md:pl-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 mx-auto"
   >
     <NuxtLink
       v-for="dictionary in dictionaries"

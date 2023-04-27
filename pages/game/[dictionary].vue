@@ -207,7 +207,7 @@ function handler(event: KeyboardEvent) {
           <span class="hangman invisible right-foot"></span>
         </div>
       </div>
-      <div class="mx-auto mt-80 flex">
+      <div class="mx-auto mt-80 flex flex-wrap gap-y-12">
         <p v-if="pending">Töltés...</p>
         <p
           v-else

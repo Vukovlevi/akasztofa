@@ -5,6 +5,8 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+const auth = useSupabaseAuthClient();
+
 type dict = {
   categories: string;
   created_at: string | null;
@@ -123,16 +125,26 @@ async function deleteDictionary(dict: dict) {
   alert("Sikeres törlés!");
 }
 
+async function logout() {
+  try {
+    await auth.auth.signOut();
+    useState("user").value = null;
+    navigateTo("/");
+  } catch (error) {
+    alert("Kijelentkezés sikertelen, próbáld újra!");
+  }
+}
+
 getUser();
 </script>
 
 <template>
   <div
-    class="pt-20 w-10/12 h-screen flex flex-col justify-center mx-auto my-5 gap-3"
+    class="mt-36 md:mt-20 w-10/12 h-screen flex flex-col justify-center mx-auto my-5 gap-3"
   >
     <div class="card grid grid-cols-2">
       <p class="text-xl text-center">Email cím:</p>
-      <p class="text-xl text-center">{{ user?.email }}</p>
+      <p class="text-xl text-center overflow-auto">{{ user?.email }}</p>
     </div>
     <div class="card grid grid-cols-2">
       <p class="text-xl text-center">Pontok:</p>
@@ -142,7 +154,7 @@ getUser();
       <p class="text-xl flex items-center justify-center">Felhasználónév:</p>
       <input
         type="text"
-        class="text-xl text-center bg-neutral input"
+        class="text-xl text-center bg-neutral input overflow-auto"
         placeholder="Nem állítottál be felhasználónevet"
         v-model="username"
       />
@@ -191,5 +203,8 @@ getUser();
         @delete="deleteDictionary(dictionary)"
       ></Dictionary>
     </div>
+    <button @click="logout" class="md:hidden btn btn-outline btn-error">
+      Kijelentkezés
+    </button>
   </div>
 </template>

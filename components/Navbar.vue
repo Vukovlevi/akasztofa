@@ -59,7 +59,7 @@ async function logout() {
             </svg>
           </NuxtLink>
         </li>
-        <li v-if="user">
+        <li v-if="user" class="hidden md:block">
           <button @click="logout" class="btn btn-outline btn-error">
             Kijelentkezés
           </button>

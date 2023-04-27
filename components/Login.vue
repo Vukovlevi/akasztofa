@@ -43,7 +43,7 @@ async function login() {
     </button>
     <form
       @submit.prevent="login"
-      class="form-control relative w-1/3 max-w-xs border-2 border-base-content rounded-lg p-8 bg-neutral/50"
+      class="form-control relative w-5/6 md:w-2/3 lg:w-1/3 max-w-xs border-2 border-base-content rounded-lg p-8 bg-neutral/50"
     >
       <div
         class="absolute top-0 left-0 translate-y-[-50%] w-full flex justify-center bg-transparent"
