@@ -21,27 +21,30 @@
     </div>
     <div class="m-4 flex flex-col items-center">
       <div class="feature lg:w-2/3 w-full relative mt-8">
-        <div class="avatar absolute top-3">
-          <div
-            class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
-          >
-            <svg
-              fill="hsl(var(--nc))"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
+        <NuxtLink to="/game">
+          <div class="avatar absolute top-3">
+            <div
+              class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
             >
-              <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-              <path
-                d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z"
-              />
-            </svg>
+              <svg
+                fill="hsl(var(--nc))"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                  d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9V344c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
+        </NuxtLink>
         <span class="divider absolute top-0 h-4 w-full my-0 px-10"></span>
         <p class="name text-2xl ml-28 pt-4">Játék</p>
         <p class="description ml-32">
-          Menj át a "Játék!" menüpontra, válaszd ki, hogy melyik szótárral
-          szeretnél játszani és kattints rá! Már mehet is a játék!
+          Nyomj a nagy "Játék" gombra vagy menj át a "Játék!" menüpontra,
+          válaszd ki, hogy melyik szótárral szeretnél játszani és kattints rá!
+          Már mehet is a játék!
         </p>
       </div>
     </div>
@@ -71,7 +74,8 @@
         <p class="name text-2xl ml-28 pt-4">Jelentkezz be</p>
         <p class="description ml-32">
           Kattints a "BEJELENTKEZÉS", majd a "Még nincs fiókod? Regisztrálj!"
-          gombra! Hozz létre egy fiókot, a regisztráció után visszaigazoló
+          gombra! Ha telefonon vagy, akkor a "Profil" ikonra kattintva találod a
+          lap tetején. Hozz létre egy fiókot, a regisztráció után visszaigazoló
           e-mailt kapsz. Kattints az e-mailben található linkre és már van is
           egy aktív fiókod. Részleteit a "Profil" menüpontban találod, mint
           például e-mail cím, pontok, a szótáraid és a legfontosabb, a

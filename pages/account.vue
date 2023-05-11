@@ -123,6 +123,7 @@ async function deleteDictionary(dict: dict) {
   if (fileError) return alert("A fájl törlése sikertelen!");
 
   alert("Sikeres törlés!");
+  location.reload();
 }
 
 async function logout() {

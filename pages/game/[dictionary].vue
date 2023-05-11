@@ -142,6 +142,7 @@ function addGuess(letter: string) {
 
 function handler(event: KeyboardEvent) {
   const letter = event.key;
+  if (letter == "Enter" && showNextGame.value == true) return nextGame();
   if (!letter.match(/^[a-záéíóöőúüű]$/)) return;
   addGuess(letter);
 }
@@ -369,8 +370,9 @@ function handler(event: KeyboardEvent) {
 }
 
 .hangman {
+  --tw-bg-opacity: 1;
   position: absolute;
-  background-color: black;
+  background-color: rgb(234 88 12 / var(--tw-bg-opacity));
 }
 .base {
   width: 8rem;
