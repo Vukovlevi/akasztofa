@@ -74,8 +74,8 @@
         <p class="name text-2xl ml-28 pt-4">Jelentkezz be</p>
         <p class="description ml-32">
           Kattints a "BEJELENTKEZÉS", majd a "Még nincs fiókod? Regisztrálj!"
-          gombra! Ha telefonon vagy, akkor a "Profil" ikonra kattintva találod a
-          lap tetején. Hozz létre egy fiókot, a regisztráció után visszaigazoló
+          gombra! Ha telefonon vagy, akkor a "Profil" ikonra kattintva teheted
+          ezt meg. Hozz létre egy fiókot, a regisztráció után visszaigazoló
           e-mailt kapsz. Kattints az e-mailben található linkre és már van is
           egy aktív fiókod. Részleteit a "Profil" menüpontban találod, mint
           például e-mail cím, pontok, a szótáraid és a legfontosabb, a

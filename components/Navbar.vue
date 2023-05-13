@@ -64,7 +64,7 @@ async function logout() {
             Kijelentkezés
           </button>
         </li>
-        <li v-else>
+        <li class="hidden sm:block" v-else>
           <NuxtLink
             to="/auth"
             class="btn btn-outline text-blue-700 hover:text-white hover:bg-blue-700 hover:border-blue-700"
