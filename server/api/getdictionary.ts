@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as fsPromises from "fs/promises";
 import * as https from "https";
+import { serverSupabaseClient } from "#supabase/server";
+import { Database } from "~~/types/supabase";
 
 const runtimeConfig = useRuntimeConfig();
 const DEFAULT_WORDS = [
@@ -530,11 +532,13 @@ const DEFAULT_WORDS = [
   "zseb",
 ];
 export default defineEventHandler(async (event) => {
+  const client = serverSupabaseClient<Database>(event);
   try {
     await fsPromises.unlink("/tmp/data.txt");
   } catch (err) {
     // console.error(err);
   }
+
   return new Promise<string[]>(async (resolve, reject) => {
     let array: string[] = [];
     const body = await readBody(event);
@@ -546,6 +550,17 @@ export default defineEventHandler(async (event) => {
       neededSplit[1] == "tesztszavak.txt"
     )
       return resolve(DEFAULT_WORDS);
+
+    const { data, error } = await client
+      .from("dictionaries")
+      .select("status")
+      .eq("user_id", neededSplit[0])
+      .eq("file_name", neededSplit[1]);
+    if (error) return reject("A szótárat nem lehet elérni!");
+    if (data[0].status == "invalid")
+      return reject("A szótár nem felel meg a követelményeknek!");
+    if (data[0].status == "validating")
+      return reject("A szótár még ellenőrzés alatt áll!");
 
     https.get(
       `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,

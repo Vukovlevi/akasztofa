@@ -35,10 +35,10 @@ async function upload() {
       username: USER.username,
       file_name: file.name,
       categories: ["általános"],
+      status: "validating",
     })
     .select();
   if (errorDBdictionaries) {
-    console.log(errorDBdictionaries);
     alert("Már van ilyen nevű fájlod!");
     return;
   }
@@ -50,7 +50,6 @@ async function upload() {
   if (userDictionariesError) {
     return alert("A fájl feltöltése sikertelen!");
   }
-  console.log(userDictionaries);
   let dictionaries: number[];
   if (userDictionaries[0].dictionaries == null) {
     dictionaries = [];
@@ -67,11 +66,9 @@ async function upload() {
     .eq("user_id", user.value?.id)
     .select();
   if (errorDBusers) {
-    console.log(errorDBusers);
     return alert("A fájl feltöltése sikertelen!");
   }
   if (dataDBusers) {
-    console.log(dataDBusers);
     //TODO innen folytatni
   }
 
@@ -93,7 +90,17 @@ async function upload() {
     if (data) {
       useState("user").value = data[0];
     }
-    alert("A fájl feltöltése sikeres!");
+    const { data: isValid, pending } = await useFetch(
+      "/api/validatedictionary",
+      {
+        method: "POST",
+        body: {
+          dictionary: `${user.value?.id}*${file.name}`,
+        },
+      }
+    );
+    if (isValid.value == true) return alert("A fájl feltöltése sikeres!");
+    alert("A fájl nem felelt meg a követelményeknek!");
   }
 }
 </script>
@@ -122,10 +129,10 @@ async function upload() {
           neve nem tartalmazhat ékezetes karaktereket. A fájlnak ".txt"
           formátumban kell lennie, és soronként pontosan egy szót kell
           tartalmaznia! A szavak nem tartalmazhatnak szóközt se előttük, se
-          bennük, se mögöttük. A szótárban több mint 30 különböző szónak kell
-          lennie, különben az alapértelmezett szótárral lesz helyettesítve. Ha a
-          te fájlod nem felel meg ezen követelményeknek, nem garantálhatjuk a
-          szótár szabályszerű működését!</span
+          bennük, se mögöttük. A szótárban legalább 30 különböző szónak kell
+          lennie, különben nem lesz játszható. Ha a te fájlod nem felel meg ezen
+          követelményeknek, nem garantálhatjuk a szótár szabályszerű
+          működését!</span
         >
       </div>
     </div>

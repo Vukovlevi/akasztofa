@@ -9,7 +9,10 @@ if (useState("dictionaries").value) {
 }
 
 if (!dictionaries) {
-  const { data, error } = await client.from("dictionaries").select("*");
+  const { data, error } = await client
+    .from("dictionaries")
+    .select("*")
+    .eq("status", "playable");
   if (error) {
     alert("Valami nem jó!");
   }
