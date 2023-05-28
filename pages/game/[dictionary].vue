@@ -39,6 +39,11 @@ const word = ref("");
 const guesses = ref<string[]>([]);
 
 function generateWord() {
+  if (data.value?.length == 1) {
+    alert(data.value[0]);
+    navigateTo("/game");
+  }
+
   if (data.value) {
     const index = generateRandom(0, data.value.length);
     word.value = data.value[index];

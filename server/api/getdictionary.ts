@@ -556,11 +556,11 @@ export default defineEventHandler(async (event) => {
       .select("status")
       .eq("user_id", neededSplit[0])
       .eq("file_name", neededSplit[1]);
-    if (error) return reject("A szótárat nem lehet elérni!");
+    if (error) return resolve(["A szótárat nem lehet elérni!"]);
     if (data[0].status == "invalid")
-      return reject("A szótár nem felel meg a követelményeknek!");
+      return resolve(["A szótár nem felel meg a követelményeknek!"]);
     if (data[0].status == "validating")
-      return reject("A szótár még ellenőrzés alatt áll!");
+      return resolve(["A szótár még ellenőrzés alatt áll!"]);
 
     https.get(
       `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,
@@ -570,14 +570,6 @@ export default defineEventHandler(async (event) => {
         stream.on("finish", () => {
           fsPromises.readFile("/tmp/data.txt", "utf-8").then((data: any) => {
             array = data.toString().split("\r\n");
-            if (array.length <= 30) return resolve(DEFAULT_WORDS);
-            const checked_words: string[] = [];
-            array.forEach((word) => {
-              if (checked_words.includes(word)) {
-                return resolve(DEFAULT_WORDS);
-              }
-              checked_words.push(word);
-            });
             resolve(array);
           });
         });
