@@ -17,11 +17,6 @@ const { data, pending } = await useFetch("/api/getdictionary", {
   },
 });
 
-if (data.value?.length == 1) {
-  alert(data.value[0]);
-  navigateTo("/game");
-}
-
 const showNextGame = ref(false);
 const winnerState = ref("default");
 let incorrectGuesses = 0;
@@ -44,6 +39,11 @@ const word = ref("");
 const guesses = ref<string[]>([]);
 
 function generateWord() {
+  if (data.value?.length == 1) {
+    alert(data.value[0]);
+    navigateTo("/game");
+  }
+
   if (data.value) {
     const index = generateRandom(0, data.value.length);
     word.value = data.value[index];
