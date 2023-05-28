@@ -1,13 +1,13 @@
 import * as fs from "fs";
 import * as fsPromises from "fs/promises";
 import * as https from "https";
-import { serverSupabaseClient } from "#supabase/server";
+import { serverSupabaseServiceRole } from "#supabase/server";
 import { Database } from "~~/types/supabase";
 
 const runtimeConfig = useRuntimeConfig();
 
 async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
-  const client = serverSupabaseClient<Database>(event);
+  const client = serverSupabaseServiceRole<Database>(event);
   const { error } = await client
     .from("dictionaries")
     .update({ status: "invalid" })
@@ -17,7 +17,7 @@ async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
 }
 
 async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
-  const client = serverSupabaseClient<Database>(event);
+  const client = serverSupabaseServiceRole<Database>(event);
   const { error } = await client
     .from("dictionaries")
     .update({ status: "playable" })

@@ -17,6 +17,11 @@ const { data, pending } = await useFetch("/api/getdictionary", {
   },
 });
 
+if (data.value?.length == 1) {
+  alert(data.value[0]);
+  navigateTo("/game");
+}
+
 const showNextGame = ref(false);
 const winnerState = ref("default");
 let incorrectGuesses = 0;
