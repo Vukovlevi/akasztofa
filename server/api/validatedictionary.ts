@@ -1,7 +1,10 @@
 import * as fs from "fs";
 import * as fsPromises from "fs/promises";
 import * as https from "https";
-import { serverSupabaseServiceRole } from "#supabase/server";
+import {
+  serverSupabaseServiceRole,
+  serverSupabaseClient,
+} from "#supabase/server";
 import { Database } from "~~/types/supabase";
 
 const runtimeConfig = useRuntimeConfig();
@@ -27,6 +30,7 @@ async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
 }
 
 export default defineEventHandler(async (event) => {
+  serverSupabaseClient(event);
   return new Promise<boolean>(async (resolve, reject) => {
     const body = await readBody(event);
     const dictionary = body.dictionary;
