@@ -78,10 +78,7 @@
           ezt meg. Hozz létre egy fiókot, a regisztráció után visszaigazoló
           e-mailt kapsz. Kattints az e-mailben található linkre és már van is
           egy aktív fiókod. Részleteit a "Profil" menüpontban találod, mint
-          például e-mail cím, pontok, a szótáraid és a legfontosabb, a
-          felhasználónév. A felhasználóneved te állíthatod be. Amennyiben
-          szeretnéd, hogy a pontjaid mentődjenek, vagy saját szótárakat
-          szeretnél, erre szükséged lesz.
+          például e-mail cím, pontok, a szótáraid és a felhasználóneved.
         </p>
       </div>
     </div>

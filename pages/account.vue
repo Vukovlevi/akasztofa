@@ -61,37 +61,6 @@ async function getUser() {
   }
 }
 
-async function setUsername() {
-  if (userRow.value.username) {
-    username.value = userRow.value.username;
-    return alert("Már van felhasználóneved!");
-  }
-  if (username.value === undefined) {
-    return alert("A felhasználóneved nem lehet üres!");
-  }
-  try {
-    const { data, error } = await client
-      .from("users")
-      .insert({
-        user_id: user.value?.id || "",
-        username: username.value || "",
-      })
-      .select();
-
-    if (error) {
-      return alert("A felhasználónév létezik!");
-    }
-
-    if (data) {
-      useState("user").value = data[0];
-      alert("Felhasználónév beállítása sikeres.");
-      getUser();
-    }
-  } catch (error) {
-    alert("A felhasználónév beállítása nem sikerült!");
-  }
-}
-
 const { data: dictionaries, error } = await client
   .from("dictionaries")
   .select("*")
@@ -153,44 +122,9 @@ getUser();
     </div>
     <div class="card grid grid-cols-2 gap-2">
       <p class="text-xl flex items-center justify-center">Felhasználónév:</p>
-      <input
-        type="text"
-        class="text-xl text-center bg-neutral input overflow-auto"
-        placeholder="Nem állítottál be felhasználónevet"
-        v-model="username"
-      />
-    </div>
-    <div class="grid grid-cols-2 gap-2">
-      <p></p>
-      <button
-        @click="setUsername"
-        class="btn bg-secondary-focus hover:bg-secondary"
-      >
-        Felhasználónév beállítása
-      </button>
-    </div>
-    <div class="alert alert-info shadow-lg">
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="stroke-current flex-shrink-0 w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-        <span
-          >Itt be tudod állítani a saját felhasználóneved. Ha szeretnéd, hogy a
-          pontjaid mentődjenek, vagy saját szótárat szeretnél a játékhoz adni,
-          erre szükséged lesz! De vigyázz, ha egyszer beállítottad, azt nem
-          változtathatod meg!</span
-        >
-      </div>
+      <p class="text-xl text-center bg-neutral overflow-auto">
+        {{ username }}
+      </p>
     </div>
     <div
       v-if="dictionaries"

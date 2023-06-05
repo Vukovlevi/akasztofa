@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { Database } from "../types/supabase";
 const auth = useSupabaseAuthClient();
+const client = useSupabaseClient<Database>();
 
 const form = reactive({
   email: "",
+  username: "",
   password: "",
   passwordCheck: "",
 });
@@ -13,14 +16,14 @@ function goToLogin() {
 }
 
 async function register() {
-  if (!form.email || !form.password || !form.passwordCheck) {
+  if (!form.email || !form.username || !form.password || !form.passwordCheck) {
     return alert("Töltse ki az összes mezőt!");
   }
 
   if (form.password !== form.passwordCheck) {
     return alert("A megadott jelszavak nem egyeznek!");
   }
-
+  let createdUser: any = null;
   try {
     const { data, error } = await auth.auth.signUp({
       email: form.email,
@@ -36,9 +39,21 @@ async function register() {
     if (data) {
       alert("A megadott email címre levelet küldtünk. Kérjük igazolja vissza!");
     }
+    createdUser = data.user;
   } catch (error) {
     alert("Valami nem stimmel, próbáld újra!");
   }
+
+  const { data } = useFetch("/api/createuser", {
+    method: "POST",
+    body: {
+      user_id: createdUser?.id,
+      username: form.username,
+    },
+  });
+  if (data.value == "error")
+    alert("A felhasználónevet nem sikerült beállítani!");
+  console.log("végzett");
 }
 </script>
 
@@ -82,6 +97,17 @@ async function register() {
         id="email"
         name="email"
         v-model="form.email"
+      />
+      <label class="label">
+        <span class="label-text" for="username">Felhasználónév</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Felhasználónév"
+        class="input input-bordered w-full max-w-xs"
+        id="username"
+        name="username"
+        v-model="form.username"
       />
       <label class="label"
         ><span class="label-text" for="password">Jelszó</span></label
