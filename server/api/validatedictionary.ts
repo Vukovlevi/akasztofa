@@ -10,7 +10,6 @@ import { Database } from "~~/types/supabase";
 const runtimeConfig = useRuntimeConfig();
 
 async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
-  serverSupabaseClient(event);
   const client = serverSupabaseServiceRole<Database>(event);
   const { error } = await client
     .from("dictionaries")
@@ -21,7 +20,6 @@ async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
 }
 
 async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
-  serverSupabaseClient(event);
   const client = serverSupabaseServiceRole<Database>(event);
   const { error } = await client
     .from("dictionaries")
@@ -32,6 +30,7 @@ async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
 }
 
 export default defineEventHandler(async (event) => {
+  serverSupabaseClient(event);
   return new Promise<boolean>(async (resolve, reject) => {
     const body = await readBody(event);
     const dictionary = body.dictionary;
