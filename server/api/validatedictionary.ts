@@ -9,8 +9,10 @@ import { Database } from "~~/types/supabase";
 
 const runtimeConfig = useRuntimeConfig();
 
-async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
-  const client = serverSupabaseServiceRole<Database>(event);
+async function markAsInvalid(
+  client: any,
+  neededSplit: string[]
+): Promise<void> {
   const { error } = await client
     .from("dictionaries")
     .update({ status: "invalid" })
@@ -19,8 +21,7 @@ async function markAsInvalid(event: any, neededSplit: string[]): Promise<void> {
   if (error) console.log(error);
 }
 
-async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
-  const client = serverSupabaseServiceRole<Database>(event);
+async function markAsValid(client: any, neededSplit: string[]): Promise<void> {
   const { error } = await client
     .from("dictionaries")
     .update({ status: "playable" })
@@ -31,11 +32,11 @@ async function markAsValid(event: any, neededSplit: string[]): Promise<void> {
 
 export default defineEventHandler(async (event) => {
   serverSupabaseClient(event);
+  const client = serverSupabaseServiceRole<Database>(event);
   return new Promise<boolean>(async (resolve, reject) => {
     const body = await readBody(event);
     const dictionary = body.dictionary;
     const neededSplit = dictionary.split("*");
-
     let array: string[] = [];
     https.get(
       `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,
@@ -48,18 +49,20 @@ export default defineEventHandler(async (event) => {
             .then((data: any) => {
               array = data.toString().split("\r\n");
               if (array.length < 30) {
-                markAsInvalid(event, neededSplit);
+                markAsInvalid(client, neededSplit);
                 resolve(false);
+                return;
               }
               const checked_words: string[] = [];
               array.forEach((word) => {
                 if (checked_words.includes(word)) {
-                  markAsInvalid(event, neededSplit);
+                  markAsInvalid(client, neededSplit);
                   resolve(false);
+                  return;
                 }
                 checked_words.push(word);
               });
-              markAsValid(event, neededSplit);
+              markAsValid(client, neededSplit);
               resolve(true);
             });
         });
