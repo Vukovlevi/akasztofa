@@ -31,7 +31,6 @@ async function markAsValid(client: any, neededSplit: string[]): Promise<void> {
 }
 
 export default defineEventHandler(async (event) => {
-  serverSupabaseClient(event);
   const client = serverSupabaseServiceRole<Database>(event);
   return new Promise<boolean>(async (resolve, reject) => {
     const body = await readBody(event);
