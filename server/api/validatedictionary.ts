@@ -45,23 +45,23 @@ export default defineEventHandler(async (event) => {
         stream.on("finish", () => {
           fsPromises
             .readFile("/tmp/validate.txt", "utf-8")
-            .then((data: any) => {
+            .then(async (data: any) => {
               array = data.toString().split("\r\n");
               if (array.length < 30) {
-                markAsInvalid(client, neededSplit);
+                await markAsInvalid(client, neededSplit);
                 resolve(false);
                 return;
               }
               const checked_words: string[] = [];
-              array.forEach((word) => {
+              array.forEach(async (word) => {
                 if (checked_words.includes(word)) {
-                  markAsInvalid(client, neededSplit);
+                  await markAsInvalid(client, neededSplit);
                   resolve(false);
                   return;
                 }
                 checked_words.push(word);
               });
-              markAsValid(client, neededSplit);
+              await markAsValid(client, neededSplit);
               resolve(true);
             });
         });
