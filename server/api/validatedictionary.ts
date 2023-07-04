@@ -7,32 +7,41 @@ import {
 } from "#supabase/server";
 import { Database } from "~~/types/supabase";
 
+type resp = {
+  dictionary: any;
+  isValid: boolean;
+};
+
 const runtimeConfig = useRuntimeConfig();
 
-async function markAsInvalid(
+async function writeDb(
   client: any,
-  neededSplit: string[]
-): Promise<void> {
-  const { error } = await client
+  status: string,
+  username: string,
+  userId: string,
+  fileName: string
+) {
+  const { data: dataDBdictionaries, error: errorDBdictionaries } = await client
     .from("dictionaries")
-    .update({ status: "invalid" })
-    .eq("user_id", neededSplit[0])
-    .eq("file_name", neededSplit[1]);
-  if (error) console.log(error);
-}
-
-async function markAsValid(client: any, neededSplit: string[]): Promise<void> {
-  const { error } = await client
-    .from("dictionaries")
-    .update({ status: "playable" })
-    .eq("user_id", neededSplit[0])
-    .eq("file_name", neededSplit[1]);
-  if (error) console.log(error);
+    .insert({
+      user_id: userId,
+      username: username,
+      file_name: fileName,
+      categories: "általános",
+      status: status,
+    })
+    .select();
+  if (errorDBdictionaries) {
+    console.log(errorDBdictionaries);
+    return null;
+  }
+  return dataDBdictionaries;
 }
 
 export default defineEventHandler(async (event) => {
+  serverSupabaseClient(event);
   const client = serverSupabaseServiceRole<Database>(event);
-  return new Promise<boolean>(async (resolve, reject) => {
+  return new Promise<resp>(async (resolve, reject) => {
     const body = await readBody(event);
     const dictionary = body.dictionary;
     const neededSplit = dictionary.split("*");
@@ -48,21 +57,39 @@ export default defineEventHandler(async (event) => {
             .then(async (data: any) => {
               array = data.toString().split("\r\n");
               if (array.length < 30) {
-                await markAsInvalid(client, neededSplit);
-                resolve(false);
+                const dictionary = await writeDb(
+                  client,
+                  "invalid",
+                  body.username,
+                  body.userId,
+                  body.fileName
+                );
+                resolve({ dictionary: dictionary, isValid: false });
                 return;
               }
               const checked_words: string[] = [];
               array.forEach(async (word) => {
                 if (checked_words.includes(word)) {
-                  await markAsInvalid(client, neededSplit);
-                  resolve(false);
+                  const dictionary = await writeDb(
+                    client,
+                    "invalid",
+                    body.username,
+                    body.userId,
+                    body.fileName
+                  );
+                  resolve({ dictionary: dictionary, isValid: false });
                   return;
                 }
                 checked_words.push(word);
               });
-              await markAsValid(client, neededSplit);
-              resolve(true);
+              const dictionary = await writeDb(
+                client,
+                "playable",
+                body.username,
+                body.userId,
+                body.fileName
+              );
+              resolve({ dictionary: dictionary, isValid: true });
             });
         });
       }

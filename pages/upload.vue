@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Database } from "../types/supabase";
+import { Database } from "~~/types/supabase";
 
 definePageMeta({
   middleware: ["auth", "username"],
@@ -28,27 +28,34 @@ async function upload() {
   if (USER.dictionaries?.length >= 3) {
     return alert("Csak 3 szótárad lehet!");
   }
-  const { data: dataDBdictionaries, error: errorDBdictionaries } = await client
+
+  const { data, error } = await client.storage
     .from("dictionaries")
-    .insert({
-      user_id: user.value?.id || "",
-      username: USER.username,
-      file_name: file.name,
-      categories: ["általános"],
-      status: "validating",
-    })
-    .select();
-  if (errorDBdictionaries) {
-    alert("Már van ilyen nevű fájlod!");
+    .upload(`${user.value?.id}/${file.name}`, file);
+
+  if (error) {
+    alert("A fájl feltöltése sikertelen!");
     return;
   }
+
+  const { data: validInfo } = await useFetch("/api/validatedictionary", {
+    method: "POST",
+    body: {
+      dictionary: `${user.value?.id}*${file.name}`,
+      username: USER.username,
+      userId: user.value?.id,
+      fileName: file.name,
+    },
+  });
+  if (validInfo.value?.isValid) alert("A fájl feltöltése sikeres!");
+  else alert("A fájl nem felelt meg a követelményeknek!");
 
   const { data: userDictionaries, error: userDictionariesError } = await client
     .from("users")
     .select("dictionaries")
     .eq("user_id", user.value?.id);
   if (userDictionariesError) {
-    return alert("A fájl feltöltése sikertelen!");
+    return alert("Az adatbázisba nem sikerült menteni!");
   }
   let dictionaries: number[];
   if (userDictionaries[0].dictionaries == null) {
@@ -56,7 +63,7 @@ async function upload() {
   } else {
     dictionaries = userDictionaries[0].dictionaries;
   }
-  dictionaries.push(dataDBdictionaries[0].id);
+  dictionaries.push(validInfo.value?.dictionary[0].id);
 
   const { data: dataDBusers, error: errorDBusers } = await client
     .from("users")
@@ -66,19 +73,7 @@ async function upload() {
     .eq("user_id", user.value?.id)
     .select();
   if (errorDBusers) {
-    return alert("A fájl feltöltése sikertelen!");
-  }
-  if (dataDBusers) {
-    //TODO innen folytatni
-  }
-
-  const { data, error } = await client.storage
-    .from("dictionaries")
-    .upload(`${user.value?.id}/${file.name}`, file);
-
-  if (error) {
-    alert("A fájl feltöltése sikertelen!");
-    return;
+    return alert("Az adatbázisba mentés sikertelen!");
   }
 
   if (data) {
@@ -90,17 +85,6 @@ async function upload() {
     if (data) {
       useState("user").value = data[0];
     }
-    const { data: isValid, pending } = await useFetch(
-      "/api/validatedictionary",
-      {
-        method: "POST",
-        body: {
-          dictionary: `${user.value?.id}*${file.name}`,
-        },
-      }
-    );
-    if (isValid.value == true) return alert("A fájl feltöltése sikeres!");
-    alert("A fájl nem felelt meg a követelményeknek!");
   }
 }
 </script>
