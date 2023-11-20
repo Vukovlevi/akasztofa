@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Database } from "~~/types/supabase";
+import { Database } from "../../types/supabase";
 
 definePageMeta({
   middleware: ["getusername"],
@@ -19,6 +19,7 @@ const { data, pending } = await useFetch("/api/getdictionary", {
 
 const showNextGame = ref(false);
 const winnerState = ref("default");
+let shownWords: string[] = [];
 let incorrectGuesses = 0;
 let HANGMANPARTS: NodeListOf<Element>;
 onMounted(() => {
@@ -45,8 +46,11 @@ function generateWord() {
   }
 
   if (data.value) {
-    const index = generateRandom(0, data.value.length);
-    word.value = data.value[index];
+    do {
+      const index = generateRandom(0, data.value.length);
+      word.value = data.value[index];
+    } while (shownWords.includes(word.value));
+    shownWords.push(word.value);
   }
 }
 
@@ -88,6 +92,15 @@ function nextGame() {
   showNextGame.value = false;
   incorrectGuesses = 0;
   winnerState.value = "default";
+
+  if (shownWords.length >= data.value!.length / 2) {
+    const confirmation = confirm(
+      "A szavak legalább felét már láttad, a további új szavak mutatása egyre több időt fog igénybe venni. Engedélyezed, hogy eddig már látott szavak ismét megjelenjenek?"
+    );
+
+    if (confirmation) shownWords = [];
+  }
+
   generateWord();
 }
 
