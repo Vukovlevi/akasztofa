@@ -19,7 +19,7 @@ const { data, pending } = await useFetch("/api/getdictionary", {
 
 const showNextGame = ref(false);
 const winnerState = ref("default");
-let shownWords: string[] = [];
+let words: string[] = [];
 let incorrectGuesses = 0;
 let HANGMANPARTS: NodeListOf<Element>;
 onMounted(() => {
@@ -46,11 +46,10 @@ function generateWord() {
   }
 
   if (data.value) {
-    do {
-      const index = generateRandom(0, data.value.length);
-      word.value = data.value[index];
-    } while (shownWords.includes(word.value));
-    shownWords.push(word.value);
+    if (words.length == 0) words = [...data.value];
+    const index = generateRandom(0, words.length);
+    word.value = words[index];
+    words.splice(index, 1);
   }
 }
 
@@ -92,14 +91,6 @@ function nextGame() {
   showNextGame.value = false;
   incorrectGuesses = 0;
   winnerState.value = "default";
-
-  if (shownWords.length >= data.value!.length / 2) {
-    const confirmation = confirm(
-      "A szavak legalább felét már láttad, a további új szavak mutatása egyre több időt fog igénybe venni. Engedélyezed, hogy eddig már látott szavak ismét megjelenjenek?"
-    );
-
-    if (confirmation) shownWords = [];
-  }
 
   generateWord();
 }
