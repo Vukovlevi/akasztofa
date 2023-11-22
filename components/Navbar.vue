@@ -33,6 +33,13 @@ async function logout() {
         </li>
         <li>
           <NuxtLink
+            to="/scoreboard"
+            class="btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-info hover:text-white"
+            >Ranglista</NuxtLink
+          >
+        </li>
+        <li>
+          <NuxtLink
             to="/upload"
             class="btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-info hover:text-white"
             >Feltöltés</NuxtLink

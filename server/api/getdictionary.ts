@@ -570,6 +570,7 @@ export default defineEventHandler(async (event) => {
         stream.on("finish", () => {
           fsPromises.readFile("/tmp/data.txt", "utf-8").then((data: any) => {
             array = data.toString().split("\r\n");
+            array = array.filter((elem) => elem);
             resolve(array);
           });
         });
