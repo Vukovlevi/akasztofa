@@ -20,17 +20,17 @@ if (data) {
 </script>
 
 <template>
-  <div class="flex justify-center items-center mt-24">
+  <div class="flex justify-center items-center h-screen">
     <table class="table">
       <thead>
         <tr>
-          <th>Rang</th>
-          <th>Felhasználónév</th>
-          <th>Pontszám</th>
+          <th class="bg-secondary text-black">Rang</th>
+          <th class="bg-secondary text-black">Felhasználónév</th>
+          <th class="bg-secondary text-black">Pontszám</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(score, i) in scores" :class="'place-' + i">
+        <tr v-for="(score, i) in scores" :class="'bg-secondary place-' + i">
           <th class="text-center bg-transparent text-black">
             {{ i + 1 + "." }}
           </th>
