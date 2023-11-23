@@ -1,49 +1,48 @@
 <script setup lang="ts">
-import { Database } from "../types/supabase";
-
-const client = useSupabaseClient<Database>();
 const scores = ref();
 
-const { data, error } = await client
-  .from("users")
-  .select("username, score")
-  .order("score", { ascending: false })
-  .limit(50);
+const { data, error } = await useFetch("/api/getscoreboard");
 
-if (error) {
+if (error.value) {
   alert("Valami hiba történt, frissítsd az oldalt!");
 }
 
-if (data) {
-  scores.value = data;
+if (!data.value) {
+  alert("Valami hiba történt, frissítsd az oldalt!");
+}
+
+if (data.value) {
+  scores.value = data.value;
 }
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="bg-secondary text-black">Rang</th>
-          <th class="bg-secondary text-black">Felhasználónév</th>
-          <th class="bg-secondary text-black">Pontszám</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(score, i) in scores" :class="'bg-secondary place-' + i">
-          <th class="text-center bg-transparent text-black">
-            {{ i + 1 + "." }}
-          </th>
-          <td class="text-center bg-transparent text-black">
-            {{ score.username }}
-          </td>
-          <td class="text-center bg-transparent text-black">
-            {{ score.score }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ClientOnly>
+    <div class="flex justify-center items-center h-screen">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="bg-secondary text-black">Rang</th>
+            <th class="bg-secondary text-black">Felhasználónév</th>
+            <th class="bg-secondary text-black">Pontszám</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(score, i) in scores" :class="'bg-secondary place-' + i">
+            <th class="text-center bg-transparent text-black">
+              {{ i + 1 + "." }}
+            </th>
+            <td class="text-center bg-transparent text-black">
+              {{ score.username }}
+            </td>
+            <td class="text-center bg-transparent text-black">
+              {{ score.score }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ClientOnly>
 </template>
 
 <style scoped>
