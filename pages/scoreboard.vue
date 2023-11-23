@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ["getusername"],
+});
+
 const scores = ref();
 
 const { data, error } = await useFetch("/api/getscoreboard");
@@ -11,38 +15,34 @@ if (!data.value) {
   alert("Valami hiba történt, frissítsd az oldalt!");
 }
 
-if (data.value) {
-  scores.value = data.value;
-}
+scores.value = data.value;
 </script>
 
 <template>
-  <ClientOnly>
-    <div class="flex justify-center items-center h-screen">
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="bg-secondary text-black">Rang</th>
-            <th class="bg-secondary text-black">Felhasználónév</th>
-            <th class="bg-secondary text-black">Pontszám</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(score, i) in scores" :class="'bg-secondary place-' + i">
-            <th class="text-center bg-transparent text-black">
-              {{ i + 1 + "." }}
-            </th>
-            <td class="text-center bg-transparent text-black">
-              {{ score.username }}
-            </td>
-            <td class="text-center bg-transparent text-black">
-              {{ score.score }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </ClientOnly>
+  <div class="flex justify-center items-center h-screen">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="bg-secondary text-black">Rang</th>
+          <th class="bg-secondary text-black">Felhasználónév</th>
+          <th class="bg-secondary text-black">Pontszám</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(score, i) in scores" :class="'bg-secondary place-' + i">
+          <th class="text-center bg-transparent text-black">
+            {{ i + 1 + "." }}
+          </th>
+          <td class="text-center bg-transparent text-black">
+            {{ score.username }}
+          </td>
+          <td class="text-center bg-transparent text-black">
+            {{ score.score }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style scoped>

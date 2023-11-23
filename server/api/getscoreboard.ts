@@ -1,7 +1,11 @@
-import { serverSupabaseServiceRole } from "#supabase/server";
+import {
+  serverSupabaseClient,
+  serverSupabaseServiceRole,
+} from "#supabase/server";
 import { Database } from "~~/types/supabase";
 
 export default defineEventHandler(async (event) => {
+  serverSupabaseClient(event);
   const client = serverSupabaseServiceRole<Database>(event);
 
   const { data, error } = await client
