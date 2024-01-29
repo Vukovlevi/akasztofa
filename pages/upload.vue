@@ -39,7 +39,7 @@ async function upload() {
     },
   });
   if (validInfo.value?.isValid) alert("Uploading is successful!");
-  else alert("Your file didn't meat the requirements!");
+  else alert("Your file didn't meet the requirements!");
 
   const { data: userDictionaries, error: userDictionariesError } = await client
     .from("users")
