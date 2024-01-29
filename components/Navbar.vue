@@ -8,7 +8,7 @@ async function logout() {
     useState("user").value = null;
     navigateTo("/");
   } catch (error) {
-    alert("Kijelentkezés sikertelen, próbáld újra!");
+    alert("Sign out failed, please try again!");
   }
 }
 </script>
@@ -19,7 +19,7 @@ async function logout() {
       <NuxtLink
         to="/"
         class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg btn-ghost hover:bg-primary normal-case text-xl"
-        >Akasztófa</NuxtLink
+        >Hangman</NuxtLink
       >
     </div>
     <div class="flex-none">
@@ -28,21 +28,21 @@ async function logout() {
           <NuxtLink
             to="/game"
             class="btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-info hover:text-white"
-            >Játék!</NuxtLink
+            >Play!</NuxtLink
           >
         </li>
         <li>
           <NuxtLink
             to="/scoreboard"
             class="btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-info hover:text-white"
-            >Ranglista</NuxtLink
+            >Scoreboard</NuxtLink
           >
         </li>
         <li>
           <NuxtLink
             to="/upload"
             class="btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-info hover:text-white"
-            >Feltöltés</NuxtLink
+            >Upload</NuxtLink
           >
         </li>
         <li>
@@ -68,7 +68,7 @@ async function logout() {
         </li>
         <li v-if="user" class="hidden md:block">
           <button @click="logout" class="btn btn-outline btn-error">
-            Kijelentkezés
+            Sign out
           </button>
         </li>
         <li class="hidden sm:block" v-else>
@@ -76,7 +76,7 @@ async function logout() {
             to="/auth"
             class="btn btn-outline text-blue-700 hover:text-white hover:bg-blue-700 hover:border-blue-700"
           >
-            Bejelentkezés
+            Log in
           </NuxtLink>
         </li>
       </ul>

@@ -556,11 +556,11 @@ export default defineEventHandler(async (event) => {
       .select("status")
       .eq("user_id", neededSplit[0])
       .eq("file_name", neededSplit[1]);
-    if (error) return resolve(["A szótárat nem lehet elérni!"]);
+    if (error) return resolve(["Dictionary can't be read!"]);
     if (data[0].status == "invalid")
-      return resolve(["A szótár nem felel meg a követelményeknek!"]);
+      return resolve(["Dictionary didn't meet the requirements!"]);
     if (data[0].status == "validating")
-      return resolve(["A szótár még ellenőrzés alatt áll!"]);
+      return resolve(["Dictionary is being validated!"]);
 
     https.get(
       `${runtimeConfig.public.supabaseStorage}/${neededSplit[0]}/${neededSplit[1]}`,

@@ -14,19 +14,10 @@ function fileUpload(e: any) {
 }
 
 async function upload() {
-  // const { data: preData } = await client
-  //   .from("users")
-  //   .select("*")
-  //   .eq("user_id", user.value?.id);
-
-  // if (preData) {
-  //   console.warn(preData[0]);
-  //   useState("user").value = preData[0];
-  // }
-  if (!file) return alert("Nincs kiválaszott fájl!");
+  if (!file) return alert("There's no selected file!");
   const USER: any = useState("user").value;
   if (USER.dictionaries?.length >= 3) {
-    return alert("Csak 3 szótárad lehet!");
+    return alert("You can't have more than 3 dictionaries!");
   }
 
   const { data, error } = await client.storage
@@ -34,7 +25,7 @@ async function upload() {
     .upload(`${user.value?.id}/${file.name}`, file);
 
   if (error) {
-    alert("A fájl feltöltése sikertelen!");
+    alert("Upload has failed!");
     return;
   }
 
@@ -47,15 +38,15 @@ async function upload() {
       fileName: file.name,
     },
   });
-  if (validInfo.value?.isValid) alert("A fájl feltöltése sikeres!");
-  else alert("A fájl nem felelt meg a követelményeknek!");
+  if (validInfo.value?.isValid) alert("Uploading is successful!");
+  else alert("Your file didn't meat the requirements!");
 
   const { data: userDictionaries, error: userDictionariesError } = await client
     .from("users")
     .select("dictionaries")
     .eq("user_id", user.value?.id);
   if (userDictionariesError) {
-    return alert("Az adatbázisba nem sikerült menteni!");
+    return alert("Saving into database failed!");
   }
   let dictionaries: number[];
   if (userDictionaries[0].dictionaries == null) {
@@ -73,7 +64,7 @@ async function upload() {
     .eq("user_id", user.value?.id)
     .select();
   if (errorDBusers) {
-    return alert("Az adatbázisba mentés sikertelen!");
+    return alert("Saving into database failed!");
   }
 
   if (data) {
@@ -108,16 +99,15 @@ async function upload() {
             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           ></path>
         </svg>
-        <span
-          >A saját szótár feltöltésének pár követlményt be kell tartania. A fájl
-          neve nem tartalmazhat ékezetes karaktereket. A fájlnak ".txt"
-          formátumban kell lennie, és soronként pontosan egy szót kell
-          tartalmaznia! A szavak nem tartalmazhatnak szóközt se előttük, se
-          bennük, se mögöttük. A szótárban legalább 30 különböző szónak kell
-          lennie, különben nem lesz játszható. Ha a te fájlod nem felel meg ezen
-          követelményeknek, nem garantálhatjuk a szótár szabályszerű
-          működését!</span
-        >
+        <span>
+          To upload your own dictionary, you have to meet some requirements.
+          Your file's extension must be a ".txt" and your file must have one
+          word in each row. The words can't have spaces in them, before them or
+          after them. The dictionary must have at least 30 unique words,
+          otherwise it won't show up since it's not playable. If your file
+          doesn't meet these requirements, than we can't guarantee the flawless
+          operation of your dictionary.
+        </span>
       </div>
     </div>
     <input
@@ -130,7 +120,7 @@ async function upload() {
       @click="upload"
       class="btn rounded-full text-white bg-orange-500 hover:bg-orange-500/50 mt-5"
     >
-      Szótár feltöltése!
+      Upload dictionary
     </button>
   </div>
 </template>

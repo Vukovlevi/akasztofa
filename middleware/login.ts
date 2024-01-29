@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to, from) => {
   const user = useSupabaseUser();
   if (user.value) {
-    alert("Ki kell jelentkezned a fiókváltáshoz!");
+    alert("You must sign out to change accounts!");
     return navigateTo("/");
   }
 });

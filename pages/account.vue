@@ -66,7 +66,7 @@ const { data: dictionaries, error } = await client
   .select("*")
   .eq("user_id", user.value?.id);
 if (error) {
-  alert("A feltöltött szótáraidat nem sikerült megjelníteni.");
+  alert("Your dictionaries can't be displayed due to unknown error!");
 }
 
 async function deleteDictionary(dict: dict) {
@@ -74,7 +74,7 @@ async function deleteDictionary(dict: dict) {
     .from("dictionaries")
     .delete()
     .eq("file_name", dict.file_name);
-  if (dictError) return alert("A törlés sikertelen!");
+  if (dictError) return alert("Deletion has failed!");
 
   USER = useState("user").value;
   const index = USER.dictionaries.indexOf(dict.id);
@@ -83,13 +83,13 @@ async function deleteDictionary(dict: dict) {
     .from("users")
     .update({ dictionaries: USER.dictionaries })
     .eq("user_id", user.value?.id);
-  if (arrayError) return alert("A törlés sikertelen!");
+  if (arrayError) return alert("Deletion has failed!");
   useState("user").value = USER;
 
   const { error: fileError } = await client.storage
     .from("dictionaries")
     .remove([`${user.value?.id}/${dict.file_name}`]);
-  if (fileError) return alert("A fájl törlése sikertelen!");
+  if (fileError) return alert("Deletion has failed!");
 
   alert("Sikeres törlés!");
   location.reload();
@@ -101,7 +101,7 @@ async function logout() {
     useState("user").value = null;
     navigateTo("/");
   } catch (error) {
-    alert("Kijelentkezés sikertelen, próbáld újra!");
+    alert("Sign out has failed, please try again!");
   }
 }
 
@@ -113,15 +113,15 @@ getUser();
     class="mt-36 md:mt-20 w-10/12 h-screen flex flex-col justify-center mx-auto my-5 gap-3"
   >
     <div class="card grid grid-cols-2">
-      <p class="text-xl text-center">Email cím:</p>
+      <p class="text-xl text-center">Email address:</p>
       <p class="text-xl text-center overflow-auto">{{ user?.email }}</p>
     </div>
     <div class="card grid grid-cols-2">
-      <p class="text-xl text-center">Pontok:</p>
+      <p class="text-xl text-center">Points:</p>
       <p class="text-xl text-center">{{ userRow.score }}</p>
     </div>
     <div class="card grid grid-cols-2 gap-2">
-      <p class="text-xl flex items-center justify-center">Felhasználónév:</p>
+      <p class="text-xl flex items-center justify-center">Username:</p>
       <p class="text-xl text-center bg-neutral overflow-auto">
         {{ username }}
       </p>
@@ -139,7 +139,7 @@ getUser();
       ></Dictionary>
     </div>
     <button @click="logout" class="md:hidden btn btn-outline btn-error">
-      Kijelentkezés
+      Sign out
     </button>
   </div>
 </template>
