@@ -17,11 +17,11 @@ function goToLogin() {
 
 async function register() {
   if (!form.email || !form.username || !form.password || !form.passwordCheck) {
-    return alert("Töltse ki az összes mezőt!");
+    return alert("Fill in all field!");
   }
 
   if (form.password !== form.passwordCheck) {
-    return alert("A megadott jelszavak nem egyeznek!");
+    return alert("The given passwords don't match!");
   }
   let createdUser: any = null;
   try {
@@ -31,17 +31,17 @@ async function register() {
     });
 
     if (error) {
-      return alert(
-        "A megadott felhasználónév foglalt, kérjük használjon másikat!"
-      );
+      return alert("The given username is taken, please use another one!");
     }
 
     if (data) {
-      alert("A megadott email címre levelet küldtünk. Kérjük igazolja vissza!");
+      alert(
+        "We have sent an email to the given email address, please confirm it!"
+      );
     }
     createdUser = data.user;
   } catch (error) {
-    alert("Valami nem stimmel, próbáld újra!");
+    alert("Something went wrong, please try again!");
   }
 
   const { data } = useFetch("/api/createuser", {
@@ -51,9 +51,7 @@ async function register() {
       username: form.username,
     },
   });
-  if (data.value == "error")
-    alert("A felhasználónevet nem sikerült beállítani!");
-  console.log("végzett");
+  if (data.value == "error") alert("Setting the username has failed!");
 }
 </script>
 
@@ -63,7 +61,7 @@ async function register() {
       @click="goToLogin"
       class="btn rounded-full text-white bg-orange-500 hover:bg-orange-500/50 mb-5"
     >
-      Már van fiókod? Jelentkezz be!
+      Do you already have an account? Log in!
     </button>
     <form
       @submit.prevent="register"
@@ -92,29 +90,29 @@ async function register() {
       </label>
       <input
         type="email"
-        placeholder="pelda@gmail.com"
+        placeholder="example@gmail.com"
         class="input input-bordered w-full max-w-xs"
         id="email"
         name="email"
         v-model="form.email"
       />
       <label class="label">
-        <span class="label-text" for="username">Felhasználónév</span>
+        <span class="label-text" for="username">Username</span>
       </label>
       <input
         type="text"
-        placeholder="Felhasználónév"
+        placeholder="username"
         class="input input-bordered w-full max-w-xs"
         id="username"
         name="username"
         v-model="form.username"
       />
       <label class="label"
-        ><span class="label-text" for="password">Jelszó</span></label
+        ><span class="label-text" for="password">Password</span></label
       >
       <input
         type="password"
-        placeholder="Jelszó"
+        placeholder="password"
         class="input input-bordered w-full max-w-xs"
         id="password"
         name="password"
@@ -122,12 +120,12 @@ async function register() {
       />
       <label class="label"
         ><span class="label-text" for="password-check"
-          >Jelszó mégegyszer</span
+          >Repeat password</span
         ></label
       >
       <input
         type="password"
-        placeholder="Jelszó mégegyszer"
+        placeholder="repeat password"
         class="input input-bordered w-full max-w-xs"
         id="password-check"
         name="password-check"
@@ -137,7 +135,7 @@ async function register() {
         class="btn btn-outline hover:bg-blue-700 border-blue-700 hover:border-blue-700 text-blue-700 hover:text-white mt-5"
         type="submit"
       >
-        Regisztáció
+        Register
       </button>
     </form>
   </div>

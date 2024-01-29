@@ -19,11 +19,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (error) {
       console.log(error);
       return returnWithError(
-        "Úgy néz ki nem állítottál be felhasználónevet! Ezt tedd meg mielőtt feltölteni próbálsz! Ha mégis van felhasználóneved, próbáld újra!"
+        "Looks like you don't have a username, yet you try to upload a dictionary! Please set a username before uploading a dictionary!"
       );
     }
     useState("user").value = data;
   } catch (error) {
-    return returnWithError("Valami nem sikerült, próbáld újra!");
+    return returnWithError("Something went wrong, please try again!");
   }
 });

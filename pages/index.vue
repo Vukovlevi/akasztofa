@@ -5,16 +5,17 @@
     <div class="hero max-h-screen mt-24 bg-base-200">
       <div class="hero-content text-center">
         <div>
-          <h1 class="text-5xl font-bold">Üdvözöl az Akasztófa!</h1>
+          <h1 class="text-5xl font-bold">Welcome to the Hangman!</h1>
           <p class="py-6 leading-16 text-xl">
-            Mindig is szerettél akasztófázni, de nincs kivel? <br />
-            Netán többen szeretnétek gondolkodni egy-egy kitalálandó szón?
+            Have you always wanted to play hangman, but you don't have a
+            partner?
             <br />
-            Esetleg versenyeznétek távoli barátokkal, hogy ki tud több szót
-            kitalálni? <br />
-            <span class="uppercase text-3xl"
-              >Akkor az Akasztófa nektek való!</span
-            >
+            Do more of you want to guess a random word?
+            <br />
+            Perhaps you want to compete with friends, who can find out more
+            words?
+            <br />
+            <span class="uppercase text-3xl">Thang Hangman is for you!</span>
           </p>
         </div>
       </div>
@@ -40,11 +41,11 @@
           </div>
         </NuxtLink>
         <span class="divider absolute top-0 h-4 w-full my-0 px-10"></span>
-        <p class="name text-2xl ml-28 pt-4">Játék</p>
+        <p class="name text-2xl ml-28 pt-4">Play</p>
         <p class="description ml-32">
-          Nyomj a nagy "Játék" gombra vagy menj át a "Játék!" menüpontra,
-          válaszd ki, hogy melyik szótárral szeretnél játszani és kattints rá!
-          Már mehet is a játék!
+          Press the big "Play" button or go to the "Play" link in the menu and
+          then choose a dictionary to play with and click on it. The game is
+          starting right away!
         </p>
       </div>
     </div>
@@ -71,14 +72,15 @@
           </div>
         </div>
         <span class="divider absolute top-0 h-4 w-full my-0 px-10"></span>
-        <p class="name text-2xl ml-28 pt-4">Jelentkezz be</p>
+        <p class="name text-2xl ml-28 pt-4">Log in</p>
         <p class="description ml-32">
-          Kattints a "BEJELENTKEZÉS", majd a "Még nincs fiókod? Regisztrálj!"
-          gombra! Ha telefonon vagy, akkor a "Profil" ikonra kattintva teheted
-          ezt meg. Hozz létre egy fiókot, a regisztráció után visszaigazoló
-          e-mailt kapsz. Kattints az e-mailben található linkre és már van is
-          egy aktív fiókod. Részleteit a "Profil" menüpontban találod, mint
-          például e-mail cím, pontok, a szótáraid és a felhasználóneved.
+          Click on the "LOGIN" button, then on the "You don't have an account
+          yet? Register!" button. If you are on phone, click on the "Profile"
+          icon. Create an account. After registration you will receive a
+          confirmation email. Click on the link in the email and there you have
+          an active account. The details of the account can be found in the
+          "Profile" menu, like your email address, your points, your
+          dictionaries and your username.
         </p>
       </div>
     </div>
@@ -102,15 +104,15 @@
           </div>
         </div>
         <span class="divider absolute top-0 h-4 w-full my-0 px-10"></span>
-        <p class="name text-2xl ml-28 pt-4">Legyen saját szótárad</p>
+        <p class="name text-2xl ml-28 pt-4">Upload your own dictionary</p>
         <p class="description ml-32">
-          Ha van egy fiókod és felhasználónevet is állítottál, akkor saját
-          szótárad is lehet, akár 3 is! Ezzel kihívhatod barátaid, vagy ha
-          nyelvtanár vagy, tesztelheted diákjaid szókincsét, hisz a nyelv nincs
-          a magyarra korlátozva (viszont a latin betűkre igen). Mit kell ehhez
-          tenned? Kattints a "Feltöltés" menüpontra, majd olvasd el figyelmesen
-          a követelményeket. Ha ezzel megvagy, már töltheted is fel a fájlt. A
-          szótáraddal pedig bárki játszhat majd.
+          If you have an account, you can have up to 3 dictionaries. With them,
+          you can challenge your friends or if you are a teacher, you can test
+          your students' vocabulary. It's because you can upload in any language
+          that uses the latin alphabet. So what should you do? Click on the
+          "Upload" button in the menu, then read the requirements carefully. If
+          you are done with that, you can upload your dictionary. If it's
+          successful, anybody can play it.
         </p>
       </div>
     </div>

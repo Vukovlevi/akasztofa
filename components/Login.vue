@@ -13,22 +13,20 @@ function goToRegister() {
 
 async function login() {
   if (!form.email || !form.password) {
-    return alert("Töltse ki az összes mezőt!");
+    return alert("Fill in all fields!");
   }
 
   try {
     const { data, error } = await auth.auth.signInWithPassword(form);
     if (error) {
-      return alert(
-        "A megadott emailcímmel és jelszóval nem található felhasználó!"
-      );
+      return alert("User can't be found with this email and password!");
     }
 
     if (data) {
       navigateTo("/");
     }
   } catch (error) {
-    alert("Valami nem stimmel, próbáld újra!");
+    alert("Something went wrong, please try again!");
   }
 }
 </script>
@@ -39,7 +37,7 @@ async function login() {
       @click="goToRegister"
       class="btn rounded-full text-white bg-orange-500 hover:bg-orange-500/50 mb-5"
     >
-      Még nincs fiókod? Regisztrálj!
+      You don't have an account yet? Register!
     </button>
     <form
       @submit.prevent="login"
@@ -68,18 +66,18 @@ async function login() {
       </label>
       <input
         type="email"
-        placeholder="pelda@gmail.com"
+        placeholder="example@gmail.com"
         class="input input-bordered w-full max-w-xs"
         id="email"
         name="email"
         v-model="form.email"
       />
       <label class="label"
-        ><span class="label-text" for="password">Jelszó</span></label
+        ><span class="label-text" for="password">Password</span></label
       >
       <input
         type="password"
-        placeholder="Jelszó"
+        placeholder="password"
         class="input input-bordered w-full max-w-xs"
         id="password"
         name="password"
@@ -89,7 +87,7 @@ async function login() {
         class="btn btn-outline hover:bg-blue-700 border-blue-700 hover:border-blue-700 text-blue-700 hover:text-white mt-5"
         type="submit"
       >
-        Bejelentkezés
+        Log in
       </button>
     </form>
   </div>

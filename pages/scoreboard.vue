@@ -8,11 +8,11 @@ const scores = ref();
 const { data, error } = await useFetch("/api/getscoreboard");
 
 if (error.value) {
-  alert("Valami hiba történt, frissítsd az oldalt!");
+  alert("There's an error, please refresh the page!");
 }
 
 if (!data.value) {
-  alert("Valami hiba történt, frissítsd az oldalt!");
+  alert("There's an error, please refresh the page!");
 }
 
 scores.value = data.value;
@@ -23,9 +23,9 @@ scores.value = data.value;
     <table class="table">
       <thead>
         <tr>
-          <th class="bg-secondary text-black">Rang</th>
-          <th class="bg-secondary text-black">Felhasználónév</th>
-          <th class="bg-secondary text-black">Pontszám</th>
+          <th class="bg-secondary text-black">Rank</th>
+          <th class="bg-secondary text-black">Username</th>
+          <th class="bg-secondary text-black">Points</th>
         </tr>
       </thead>
       <tbody>
