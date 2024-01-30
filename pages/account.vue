@@ -91,7 +91,7 @@ async function deleteDictionary(dict: dict) {
     .remove([`${user.value?.id}/${dict.file_name}`]);
   if (fileError) return alert("Deletion has failed!");
 
-  alert("Sikeres törlés!");
+  alert("Dictionary successfully deleted!");
   location.reload();
 }
 

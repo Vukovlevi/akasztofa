@@ -15,7 +15,7 @@
             Perhaps you want to compete with friends, who can find out more
             words?
             <br />
-            <span class="uppercase text-3xl">Thang Hangman is for you!</span>
+            <span class="uppercase text-3xl">Than Hangman is for you!</span>
           </p>
         </div>
       </div>
